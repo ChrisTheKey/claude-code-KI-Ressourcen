@@ -18,7 +18,7 @@ with open(CONFIG_PATH, "r") as f:
     config = json.load(f)
 
 WORKSPACE_PATH = config["workspace_path"]
-SCRIPT_PATH = os.path.join(WORKSPACE_PATH, "scripts", "launch-session.ps1")
+SCRIPT_PATH = os.path.join(WORKSPACE_PATH, "scripts", "launch-session.sh")
 
 SAMPLE_RATE = 44100
 BLOCK_SIZE = 1024
@@ -48,7 +48,7 @@ def audio_callback(indata, frames, time_info, status):
                 print(f"[jarvis] Double clap detected! Firing launch script. Shutting down.", flush=True)
                 triggered = True
                 last_clap_time = 0.0
-                subprocess.Popen(["powershell", "-ExecutionPolicy", "Bypass", "-File", SCRIPT_PATH])
+                subprocess.Popen(["bash", SCRIPT_PATH])
             else:
                 # First clap
                 print(f"[jarvis] First clap detected (rms={rms:.3f})", flush=True)
