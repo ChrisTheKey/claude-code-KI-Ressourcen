@@ -1,0 +1,163 @@
+# Maintainer: CasandarOS Kernel Engineering
+# Kernel: linux-casandarOS-madcow-gaming-kernel
+# Base: linux-6.18.33 (gregkh stable)
+# Philosophy: Frametime consistency > raw FPS
+
+pkgbase=linux-casandarOS-madcow-gaming-kernel
+pkgname=("$pkgbase" "$pkgbase-headers")
+pkgver=6.18.33
+pkgrel=1
+pkgdesc="CasandarOS Madcow Gaming Kernel — Frametime consistency focused"
+arch=(x86_64)
+url="https://github.com/christhekey/claude-code-KI-Ressourcen"
+license=(GPL2)
+makedepends=(
+    bc
+    cpio
+    gettext
+    git
+    libelf
+    pahole
+    perl
+    python
+    tar
+    xz
+    zstd
+)
+
+_kernelver="${pkgver}-casandarOS-madcow-gaming-kernel"
+_srcname="linux-${pkgver}"
+
+source=(
+    # Kernel source — already cloned in lab
+    "linux-${pkgver}::local://$(eval echo ~/casandar_kernel_lab/kernels/linux-${pkgver})"
+    "madcow-gaming.config::local://$(eval echo ~/casandar_kernel_lab/configs/madcow-gaming.config)"
+)
+
+# Patches injected at build time from ~/casandar_kernel_lab/patches/
+
+prepare() {
+    cd "$_srcname"
+    
+    # Set localversion
+    echo "-casandarOS-madcow-gaming-kernel" > localversion.10-pkgname
+
+    # Apply patches
+    local src
+    for src in "${source[@]}"; do
+        src="${src%%::*}"
+        src="${src##*/}"
+        [[ $src = *.patch ]] || continue
+        echo "Applying patch: $src"
+        patch -Np1 < "../$src"
+    done
+
+    # Apply config
+    cp ../madcow-gaming.config .config
+    make olddefconfig
+    diff -u ../madcow-gaming.config .config || :
+
+    make -s kernelrelease > version
+    echo "Kernel release: $(cat version)"
+}
+
+build() {
+    cd "$_srcname"
+    make all -j"$(nproc)"
+}
+
+_package() {
+    pkgdesc="The $pkgdesc kernel and modules"
+    depends=(coreutils kmod initramfs)
+    optdepends=(
+        'wireless-regdb: to set the correct wireless channels of your country'
+        'linux-firmware: firmware images needed for some devices'
+        'modprobed-db: Keeps track of EVERY kernel module that has ever been probed'
+    )
+    provides=("linux=${pkgver}")
+    install=linux.install
+
+    cd "$_srcname"
+    local kernver; kernver="$(cat version)"
+    local modulesdir="$pkgdir/usr/lib/modules/$kernver"
+
+    echo "Installing boot image..."
+    install -Dm644 "$(make -s image_name)" "$modulesdir/vmlinuz"
+    echo "$pkgbase" | install -Dm644 /dev/stdin "$modulesdir/pkgbase"
+
+    echo "Installing modules..."
+    ZSTD_CLEVEL=19 make INSTALL_MOD_PATH="$pkgdir/usr" INSTALL_MOD_STRIP=1 \
+        DEPMOD=/doesnt/exist modules_install
+
+    rm "$modulesdir"/build
+}
+
+_package-headers() {
+    pkgdesc="Headers and scripts for building modules for the $pkgdesc kernel"
+    depends=(pahole)
+    provides=("linux-headers=${pkgver}")
+
+    cd "$_srcname"
+    local builddir="$pkgdir/usr/lib/modules/$(cat version)/build"
+
+    echo "Installing build files..."
+    install -Dt "$builddir" -m644 .config Makefile Module.symvers System.map \
+        localversion.10-pkgname version vmlinux
+    install -Dt "$builddir/kernel" -m644 kernel/Makefile
+    install -Dt "$builddir/arch/x86" -m644 arch/x86/Makefile
+    cp -t "$builddir" -a scripts
+
+    install -Dt "$builddir/tools/objtool" tools/objtool/objtool
+
+    echo "Installing headers..."
+    cp -t "$builddir" -a include
+    cp -t "$builddir/arch/x86" -a arch/x86/include
+    install -Dt "$builddir/arch/x86/kernel" -m644 arch/x86/kernel/asm-offsets.s
+    install -Dt "$builddir/drivers/md" -m644 drivers/md/*.h
+    install -Dt "$builddir/net/mac80211" -m644 net/mac80211/*.h
+    install -Dt "$builddir/drivers/media/i2c" -m644 drivers/media/i2c/msp3400-driver.h
+    install -Dt "$builddir/drivers/media/usb/dvb-usb" -m644 drivers/media/usb/dvb-usb/*.h
+    install -Dt "$builddir/drivers/media/dvb-frontends" -m644 drivers/media/dvb-frontends/*.h
+    install -Dt "$builddir/drivers/media/tuners" -m644 drivers/media/tuners/*.h
+    install -Dt "$builddir/drivers/iio/common/hid-sensors" -m644 drivers/iio/common/hid-sensors/*.h
+
+    echo "Installing Kconfig files..."
+    find . -name 'Kconfig*' -exec install -Dm644 {} "$builddir/{}" \;
+
+    echo "Removing unneeded architectures..."
+    local arch
+    for arch in "$builddir"/arch/*/; do
+        [[ $arch = */x86/ ]] && continue
+        echo "Removing $(basename "$arch")"
+        rm -r "$arch"
+    done
+
+    echo "Removing documentation..."
+    rm -r "$builddir/Documentation"
+
+    echo "Removing broken symlinks..."
+    find -L "$builddir" -type l -printf 'Removing %P\n' -delete
+
+    echo "Stripping build tools..."
+    local file
+    while read -rd '' file; do
+        case "$(file -Sib "$file")" in
+            application/x-sharedlib\;*)
+                strip -v $STRIP_SHARED "$file" ;;
+            application/x-archive\;*)
+                strip -v $STRIP_STATIC "$file" ;;
+            application/x-executable\;*)
+                strip -v $STRIP_BINARIES "$file" ;;
+            application/x-pie-executable\;*)
+                strip -v $STRIP_SHARED "$file" ;;
+        esac
+    done < <(find "$builddir" -type f -perm -u+x ! -name vmlinux -print0)
+
+    echo "Adding symlink..."
+    mkdir -p "$pkgdir/usr/src"
+    ln -sr "$builddir" "$pkgdir/usr/src/$pkgbase"
+}
+
+pkgname=("$pkgbase" "$pkgbase-headers")
+eval "package_${pkgbase}() { _package; }"
+eval "package_${pkgbase}-headers() { _package-headers; }"
