@@ -2,8 +2,7 @@
 node_modules/
 __pycache__/
 .venv/
-video-use/.env
-video-use/.venv/
+video-use/
 raw/*.mp4
 raw/*.mov
 raw/*.mkv
