@@ -1,0 +1,150 @@
+{
+  "generated": "2026-05-26",
+  "kernel_base": "v6.18.33",
+  "kernel_philosophy": "frametime_consistency_over_raw_fps",
+  "patch_categories": {
+    "SCHEDULER": {
+      "description": "CPU scheduling patches for gaming latency",
+      "patches": [
+        {
+          "name": "BORE",
+          "full_name": "Burst-Oriented Response Enhancer",
+          "source": "https://github.com/firelzrd/bore-scheduler",
+          "status": "APPLIED",
+          "priority": "CRITICAL",
+          "rationale": "Extends EEVDF to prioritize interactive/burst workloads; reduces frametime variance",
+          "apply_result": "CLEAN"
+        },
+        {
+          "name": "EEVDF-tuning",
+          "full_name": "EEVDF scheduler parameter tuning",
+          "source": "CachyOS patches",
+          "status": "PENDING_APPLY",
+          "priority": "HIGH",
+          "rationale": "Tune EEVDF slice/latency parameters for gaming workloads"
+        }
+      ]
+    },
+    "MEMORY": {
+      "description": "Memory management optimizations",
+      "patches": [
+        {
+          "name": "le9uo",
+          "full_name": "Low-memory OOM avoidance patches",
+          "source": "https://github.com/hakavlad/le9-patch",
+          "status": "PENDING_APPLY",
+          "priority": "HIGH",
+          "rationale": "Prevents memory pressure from causing stutters during gaming"
+        },
+        {
+          "name": "zram-tuning",
+          "full_name": "ZRAM memory compression parameters",
+          "source": "CachyOS defaults",
+          "status": "PENDING_CONFIG",
+          "priority": "MEDIUM",
+          "rationale": "Compressed swap for systems with limited RAM"
+        }
+      ]
+    },
+    "FUTEX": {
+      "description": "Futex/synchronization for Wine and Proton",
+      "patches": [
+        {
+          "name": "ntsync",
+          "full_name": "NT Synchronization Primitives",
+          "source": "upstream (merged in 6.14+)",
+          "status": "UPSTREAM_INCLUDED",
+          "priority": "CRITICAL",
+          "rationale": "Wine/Proton uses NT sync objects \u2014 kernel support eliminates overhead"
+        },
+        {
+          "name": "futex2-optimizations",
+          "full_name": "Futex hash table enlargement",
+          "source": "Clear Linux patches",
+          "status": "PENDING_APPLY",
+          "priority": "HIGH",
+          "rationale": "Larger futex hash table reduces contention in multi-threaded games"
+        }
+      ]
+    },
+    "NETWORK": {
+      "description": "Network stack for online gaming",
+      "patches": [
+        {
+          "name": "tcp-bbr3",
+          "full_name": "TCP BBR v3 congestion control",
+          "source": "upstream candidate",
+          "status": "PENDING_CONFIG",
+          "priority": "MEDIUM",
+          "rationale": "Better throughput and latency for online games"
+        }
+      ]
+    },
+    "HARDWARE": {
+      "description": "Hardware-specific optimizations",
+      "patches": [
+        {
+          "name": "amd-pstate-epp",
+          "full_name": "AMD P-State EPP driver",
+          "source": "upstream (6.3+)",
+          "status": "UPSTREAM_INCLUDED",
+          "priority": "HIGH",
+          "rationale": "AMD CPU frequency scaling with performance EPP for gaming"
+        },
+        {
+          "name": "clear-linux-patches",
+          "full_name": "Intel Clear Linux kernel patches",
+          "source": "https://github.com/clearlinux-pkgs/linux",
+          "status": "PENDING_APPLY",
+          "priority": "MEDIUM",
+          "rationale": "Compiler and build optimizations, various latency improvements"
+        }
+      ]
+    },
+    "IRQ": {
+      "description": "Interrupt handling for low-latency",
+      "patches": [
+        {
+          "name": "irq-affinity",
+          "full_name": "IRQ affinity and thread priority",
+          "source": "PREEMPT_RT derived",
+          "status": "PENDING_CONFIG",
+          "priority": "HIGH",
+          "rationale": "Assign GPU/audio IRQs to dedicated cores for consistent frametimes"
+        }
+      ]
+    },
+    "PREEMPTION": {
+      "description": "Kernel preemption model",
+      "patches": [
+        {
+          "name": "preempt-full",
+          "full_name": "PREEMPT_FULL kernel mode",
+          "source": "Kconfig: PREEMPT",
+          "status": "PENDING_CONFIG",
+          "priority": "CRITICAL",
+          "rationale": "Full preemption for minimum scheduling latency on gaming system"
+        }
+      ]
+    }
+  },
+  "excluded_patches": [
+    {
+      "name": "PREEMPT_RT",
+      "reason": "Full RT adds overhead not beneficial for gaming; PREEMPT_FULL is sufficient"
+    },
+    {
+      "name": "MUQSS/MuQSS",
+      "reason": "Abandoned, BORE+EEVDF supersedes it"
+    }
+  ],
+  "patches_applied": [
+    "0001-bore-scheduler.patch",
+    "0003-handheld.patch"
+  ],
+  "patches_skipped": [
+    "0002-bore-cachy.patch (duplicate coverage with bore-scheduler)",
+    "0004-nap-governor.patch",
+    "0005-reflex-governor.patch"
+  ]
+}

@@ -1,0 +1,42 @@
+{
+  "generated": "2026-05-26",
+  "host_kernel": "6.18.5",
+  "target_kernel": "6.18.x",
+  "arch": "x86_64",
+  "build_host_os": "Ubuntu 24.04.4 LTS (Noble Numbat)",
+  "target_os": "CachyOS (Arch Linux)",
+  "cpu_cores": 4,
+  "ram_gb": 15,
+  "disk_free_gb": 28,
+  "network_restrictions": ["kernel.org blocked", "cdn.kernel.org blocked"],
+  "toolchain": {
+    "gcc": "13.3.0",
+    "make": "4.3",
+    "flex": "OK",
+    "bison": "OK",
+    "pahole": "OK",
+    "openssl": "OK",
+    "libelf": "OK",
+    "dwarves": "OK",
+    "cpio": "OK",
+    "zstd": "OK",
+    "rsync": "OK",
+    "python3": "OK",
+    "git": "OK",
+    "curl": "OK"
+  },
+  "network_status": {
+    "kernel_org": "BLOCKED",
+    "github": "ACCESSIBLE",
+    "ubuntu_mirrors": "ACCESSIBLE"
+  },
+  "workspace": {
+    "base": "~/casandar_kernel_lab/",
+    "kernels": "~/casandar_kernel_lab/kernels/",
+    "patches": "~/casandar_kernel_lab/patches/",
+    "configs": "~/casandar_kernel_lab/configs/",
+    "artifacts": "~/casandar_kernel_lab/artifacts/",
+    "logs": "~/casandar_kernel_lab/logs/",
+    "telemetry": "~/casandar_kernel_lab/telemetry/"
+  }
+}

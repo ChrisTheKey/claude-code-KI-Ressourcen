@@ -1,0 +1,96 @@
+{
+  "project": "CasandarOS Madcow Gaming Kernel",
+  "version": "1.0.0",
+  "kernel_base": "linux-6.18.33",
+  "generated": "2026-05-26",
+  "decisions": [
+    {
+      "id": "DEC-001",
+      "subsystem": "scheduler",
+      "decision": "Use BORE scheduler patch (firelzrd/bore-scheduler v6.6.3 for 6.18.22)",
+      "rationale": "BORE extends EEVDF with burst-awareness — gaming tasks (short bursts) get scheduling priority over batch tasks. Upstream EEVDF alone doesn't distinguish interactive from batch.",
+      "alternatives_rejected": ["PRJC (unmaintained)", "MuQSS (abandoned)", "CFS (superseded by EEVDF)"],
+      "status": "IMPLEMENTED",
+      "verification": "grep CONFIG_SCHED_BORE /proc/config.gz after boot"
+    },
+    {
+      "id": "DEC-002",
+      "subsystem": "scheduler",
+      "decision": "HZ=1000 (1ms timer tick)",
+      "rationale": "1ms tick granularity allows scheduler decisions every 1ms. At HZ=250 (4ms), frame pacing inconsistencies emerge below 250fps. Gaming at 60-165Hz requires sub-4ms scheduling.",
+      "alternatives_rejected": ["HZ=300 (compromise)", "HZ=250 (too coarse)"],
+      "status": "CONFIGURED",
+      "verification": "cat /sys/kernel/debug/sched/debug | grep HZ"
+    },
+    {
+      "id": "DEC-003",
+      "subsystem": "preemption",
+      "decision": "PREEMPT_FULL (full kernel preemption)",
+      "rationale": "Full preemption allows the scheduler to preempt any kernel code not holding a spinlock. This directly reduces wake latency and input latency.",
+      "alternatives_rejected": ["PREEMPT_RT (too much overhead for gaming)", "PREEMPT_VOLUNTARY (insufficient for gaming)"],
+      "status": "CONFIGURED",
+      "verification": "cat /sys/kernel/debug/sched/debug | grep preempt"
+    },
+    {
+      "id": "DEC-004",
+      "subsystem": "memory",
+      "decision": "THP=madvise (app-controlled transparent hugepages)",
+      "rationale": "THP=always causes background memory compaction which creates stutters. THP=madvise lets game engines request hugepages explicitly without background compaction overhead.",
+      "alternatives_rejected": ["THP=always (compaction stutter)", "THP=never (worse for game memory)"],
+      "status": "CONFIGURED",
+      "verification": "cat /sys/kernel/mm/transparent_hugepage/enabled"
+    },
+    {
+      "id": "DEC-005",
+      "subsystem": "network",
+      "decision": "BBR TCP congestion control as default",
+      "rationale": "BBR optimizes for bandwidth and latency simultaneously. Better for online gaming than CUBIC (which sacrifices latency for throughput).",
+      "alternatives_rejected": ["CUBIC (high latency under load)", "reno (outdated)"],
+      "status": "CONFIGURED",
+      "verification": "sysctl net.ipv4.tcp_congestion_control"
+    },
+    {
+      "id": "DEC-006",
+      "subsystem": "io",
+      "decision": "BFQ I/O scheduler as default",
+      "rationale": "BFQ provides fair queue bandwidth and low latency for interactive processes. Prevents background downloads from blocking game asset loading.",
+      "alternatives_rejected": ["deadline (good for NVMe but no fairness)", "none/mq-deadline (server-oriented)"],
+      "status": "CONFIGURED",
+      "verification": "cat /sys/block/sda/queue/scheduler"
+    },
+    {
+      "id": "DEC-007",
+      "subsystem": "ntsync",
+      "decision": "Enable NTSync (NT synchronization primitives)",
+      "rationale": "Wine/Proton translate Windows sync objects. NTSync provides native kernel support, eliminating emulation overhead. Merged upstream in 6.14.",
+      "upstream_status": "UPSTREAM_IN_6.14",
+      "status": "CONFIGURED",
+      "verification": "ls /dev/ntsync"
+    },
+    {
+      "id": "DEC-008",
+      "subsystem": "memory",
+      "decision": "Multi-generation LRU (LRU_GEN=y)",
+      "rationale": "MGLRU better tracks memory access patterns across generations. Reduces reclaim-induced stutters during gaming by keeping recently-used game assets warm.",
+      "upstream_status": "UPSTREAM_IN_6.1",
+      "status": "CONFIGURED",
+      "verification": "cat /sys/kernel/mm/lru_gen/enabled"
+    },
+    {
+      "id": "DEC-009",
+      "subsystem": "patches",
+      "decision": "Skip bore-cachy.patch (duplicate with bore-scheduler.patch)",
+      "rationale": "Both patches modify the same scheduler files. Using bore-cachy on top of bore-scheduler would cause conflicts. bore-scheduler is sufficient and clean.",
+      "status": "REJECTED_WITH_PROOF",
+      "proof": "3/25 hunks FAILED in dry-run when applied over bore-scheduler"
+    },
+    {
+      "id": "DEC-010",
+      "subsystem": "compiler",
+      "decision": "O2 + pipe (not O3 + march=native for now)",
+      "rationale": "O3 can introduce subtle bugs in kernel code. For v1.0, O2 is the safe choice. O3+native can be enabled in EXPERIMENTAL profile after validation.",
+      "status": "IMPLEMENTED",
+      "next_phase": "EXPERIMENTAL profile: -O3 -march=native"
+    }
+  ]
+}
