@@ -1,9 +1,10 @@
 {
-  "phase": "PHASE_5_PACKAGE",
+  "phase": "PHASE_8_DELIVERY",
   "status": "COMPLETE",
-  "timestamp": "2026-05-26T23:28:00Z",
+  "timestamp": "2026-05-26T23:35:00Z",
   "target_kernel": "6.18.33",
   "target_tag": "v6.18.33",
+  "kernel_release": "6.18.33-casandarOS-madcow-gaming-kernel",
   "kernel_source": "~/casandar_kernel_lab/kernels/linux-6.18.33/",
   "source": "gregkh/linux",
   "localversion": "-casandarOS-madcow-gaming-kernel",
@@ -16,15 +17,14 @@
     "PHASE_3": "COMPLETE",
     "PHASE_4": "COMPLETE",
     "PHASE_5": "COMPLETE",
-    "PHASE_6": "PENDING",
-    "PHASE_7": "PENDING",
-    "PHASE_8": "PENDING"
+    "PHASE_6": "BLOCKED_AWAITING_HARDWARE",
+    "PHASE_7": "COMPLETE",
+    "PHASE_8": "COMPLETE"
   },
   "phase_0_result": "PASS",
   "phase_0_checks": "27/27",
   "phase_1_result": "COMPLETE",
-  "phase_1_kernel_size": "2.0GB",
-  "phase_2_patches_applied": ["0001-bore-scheduler.patch", "0003-handheld.patch"],
+  "phase_2_patches_applied": ["0001-bore-scheduler.patch (BORE v6.6.3)", "0003-handheld.patch"],
   "phase_3_config_verify": "10/10 PASS",
   "phase_4_result": "COMPLETE",
   "phase_4_bzimage": "9.4MB",
@@ -34,8 +34,45 @@
     "artifacts/boot/vmlinuz-casandarOS-madcow-gaming-kernel",
     "artifacts/boot/config-6.18.33-casandarOS-madcow-gaming-kernel",
     "artifacts/boot/System.map-6.18.33-casandarOS-madcow-gaming-kernel",
-    "pkgbuild/PKGBUILD"
+    "pkgbuild/PKGBUILD",
+    "pkgbuild/linux-casandarOS-madcow-gaming-kernel.install"
   ],
-  "last_checkpoint": "PHASE_5_COMPLETE",
-  "next": "PHASE_6_VALIDATION (requires installation on CachyOS target)"
+  "phase_6_status": "BLOCKED_AWAITING_HARDWARE",
+  "phase_6_note": "Runtime validation requires installation on CachyOS target. Scripts provided: validate-after-boot.sh, benchmark-frametime.sh",
+  "phase_7_deliverables": [
+    "COMPLETE_FEATURE_PARITY_MATRIX.md",
+    "PATCH_INTERACTION_REPORT.md",
+    "CONFIG_RATIONALE.md",
+    "TOOLCHAIN_REPORT.md",
+    "BENCHMARK_REPORT.md",
+    "TELEMETRY_REPORT.md",
+    "REGRESSION_REPORT.md",
+    "ENVIRONMENT_MANIFEST.json",
+    "ENGINEERING_TRACEABILITY.json",
+    "BUILD_SCRIPT.sh",
+    "ROLLBACK_GUIDE.md",
+    "VALIDATION_GUIDE.md"
+  ],
+  "phase_8_deliverables": [
+    "install-on-cachyos.sh",
+    "validate-after-boot.sh",
+    "benchmark-frametime.sh",
+    "sysctl-gaming.conf",
+    "boot-entry-template.conf",
+    "pkgbuild/linux-casandarOS-madcow-gaming-kernel.install"
+  ],
+  "gaming_features_verified_at_config": [
+    "CONFIG_SCHED_BORE=y",
+    "CONFIG_HZ=1000",
+    "CONFIG_PREEMPT=y",
+    "CONFIG_NO_HZ_IDLE=y",
+    "CONFIG_NTSYNC=y",
+    "CONFIG_LRU_GEN=y",
+    "CONFIG_TRANSPARENT_HUGEPAGE=y (madvise)",
+    "CONFIG_ZRAM=y",
+    "CONFIG_IOSCHED_BFQ=y",
+    "CONFIG_TCP_CONG_BBR=y"
+  ],
+  "last_checkpoint": "PHASE_8_COMPLETE",
+  "next_action": "Transfer to CachyOS target and run install-on-cachyos.sh"
 }

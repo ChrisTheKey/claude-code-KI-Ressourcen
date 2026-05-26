@@ -75,7 +75,7 @@ _package() {
         'modprobed-db: Keeps track of EVERY kernel module that has ever been probed'
     )
     provides=("linux=${pkgver}")
-    install=linux.install
+    install=linux-casandarOS-madcow-gaming-kernel.install
 
     cd "$_srcname"
     local kernver; kernver="$(cat version)"
