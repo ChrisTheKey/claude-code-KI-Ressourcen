@@ -1,0 +1,17 @@
+.env
+node_modules/
+__pycache__/
+.venv/
+video-use/.env
+video-use/.venv/
+raw/*.mp4
+raw/*.mov
+raw/*.mkv
+projects/*/renders/*.mp4
+projects/*/previews/*.mp4
+projects/*/transcripts/*.json
+projects/*/_bundle_assets/
+projects/*/assets/speaker.mp4
+.hyperframes-cache/
+.DS_Store
+Thumbs.db
