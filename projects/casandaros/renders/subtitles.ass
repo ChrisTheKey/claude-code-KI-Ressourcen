@@ -1,0 +1,44 @@
+[Script Info]
+ScriptType: v4.00+
+PlayResX: 1280
+PlayResY: 720
+ScaledBorderAndShadow: yes
+YCbCr Matrix: None
+
+[V4+ Styles]
+Format: Name, Fontname, Fontsize, PrimaryColour, SecondaryColour, OutlineColour, BackColour, Bold, Italic, Underline, StrikeOut, ScaleX, ScaleY, Spacing, Angle, BorderStyle, Outline, Shadow, Alignment, MarginL, MarginR, MarginV, Encoding
+Style: Default,Arial,52,&H00FFFFFF,&H000000FF,&H00000000,&H80000000,0,0,0,0,100,100,0.5,0,1,3,1,2,20,20,90,1
+
+[Events]
+Format: Layer, Start, End, Style, Name, MarginL, MarginR, MarginV, Effect, Text
+Dialogue: 0,0:00:01.00,0:00:04.20,Default,,0,0,0,,Jede Nacht sah gleich aus
+Dialogue: 0,0:00:05.00,0:00:08.20,Default,,0,0,0,,Das ganze Haus schlief
+Dialogue: 0,0:00:09.00,0:00:12.20,Default,,0,0,0,,Bis auf Sektor Vier
+Dialogue: 0,0:00:14.00,0:00:17.50,Default,,0,0,0,,Vögel klingen wie psychologische Kriegsführung
+Dialogue: 0,0:00:18.30,0:00:21.50,Default,,0,0,0,,Autos wie orbitaler Bombenbeschuss
+Dialogue: 0,0:00:22.30,0:00:26.10,Default,,0,0,0,,Jeder Schritt im Flur\Nein kompletter Systemabsturz
+Dialogue: 0,0:00:26.90,0:00:30.40,Default,,0,0,0,,Tagsüber wird die Welt einfach zu laut zum Denken
+Dialogue: 0,0:00:31.20,0:00:34.20,Default,,0,0,0,,Aber nachts
+Dialogue: 0,0:00:36.00,0:00:39.00,Default,,0,0,0,,ändert sich alles
+Dialogue: 0,0:00:39.80,0:00:43.00,Default,,0,0,0,,Die Welt fährt endlich runter
+Dialogue: 0,0:00:43.80,0:00:47.00,Default,,0,0,0,,Die eigentliche Arbeit beginnt
+Dialogue: 0,0:00:47.80,0:00:50.80,Default,,0,0,0,,Drei Uhr morgens
+Dialogue: 0,0:00:52.60,0:00:56.40,Default,,0,0,0,,Build-Logs\NKaputte ISOs
+Dialogue: 0,0:00:57.20,0:01:01.20,Default,,0,0,0,,Entscheidungen\Ndie langsam nach Raumfahrt aussehen
+Dialogue: 0,0:01:02.00,0:01:05.00,Default,,0,0,0,,Linux ist wie Lego
+Dialogue: 0,0:01:05.80,0:01:09.00,Default,,0,0,0,,Ubuntu ist das vorgefertigte Set
+Dialogue: 0,0:01:09.80,0:01:13.00,Default,,0,0,0,,Windows ist ein versiegeltes System
+Dialogue: 0,0:01:13.80,0:01:17.80,Default,,0,0,0,,Aber Arch\Nkippt dir zwölf Millionen Teile auf den Boden
+Dialogue: 0,0:01:18.60,0:01:22.60,Default,,0,0,0,,CasandarOS
+Dialogue: 0,0:01:24.80,0:01:28.30,Default,,0,0,0,,Ein Sternenschiff aus Code
+Dialogue: 0,0:01:30.30,0:01:33.80,Default,,0,0,0,,Warum entführen Aliens eigentlich Kühe
+Dialogue: 0,0:01:34.60,0:01:38.60,Default,,0,0,0,,Was wenn irgendwo unter Genf\Netwas entdeckt wurde
+Dialogue: 0,0:01:39.40,0:01:43.40,Default,,0,0,0,,Ein schlafloser Ingenieur versucht\Ndiesen Wahnsinn nachzubauen
+Dialogue: 0,0:01:44.20,0:01:47.70,Default,,0,0,0,,Normalerweise bauen ganze Teams solche Systeme
+Dialogue: 0,0:01:48.50,0:01:52.50,Default,,0,0,0,,Und ich sitze allein\Nin einem leuchtenden Zimmer
+Dialogue: 0,0:01:53.00,0:01:57.00,Default,,0,0,0,,in Bern
+Dialogue: 0,0:01:59.00,0:02:03.00,Default,,0,0,0,,Ab irgendeinem Punkt\Nfühlt sich das nicht mehr wie Informatik an
+Dialogue: 0,0:02:03.80,0:02:07.80,Default,,0,0,0,,Es fühlt sich an\Nwie der Maschinenraum eines Raumschiffs
+Dialogue: 0,0:02:08.60,0:02:12.60,Default,,0,0,0,,CasandarOS
+Dialogue: 0,0:02:14.50,0:02:17.50,Default,,0,0,0,,Entwickelt dort
+Dialogue: 0,0:02:19.30,0:02:22.80,Default,,0,0,0,,wo die meisten längst offline sind

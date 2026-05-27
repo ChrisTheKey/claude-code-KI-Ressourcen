@@ -1,0 +1,31 @@
+[  1.00s →   4.20s]  Jede Nacht sah gleich aus
+[  5.00s →   8.20s]  Das ganze Haus schlief
+[  9.00s →  12.20s]  Bis auf Sektor Vier
+[ 14.00s →  17.50s]  Vögel klingen wie psychologische Kriegsführung
+[ 18.30s →  21.50s]  Autos wie orbitaler Bombenbeschuss
+[ 22.30s →  26.10s]  Jeder Schritt im Flur / ein kompletter Systemabsturz
+[ 26.90s →  30.40s]  Tagsüber wird die Welt einfach zu laut zum Denken
+[ 31.20s →  34.20s]  Aber nachts
+[ 36.00s →  39.00s]  ändert sich alles
+[ 39.80s →  43.00s]  Die Welt fährt endlich runter
+[ 43.80s →  47.00s]  Die eigentliche Arbeit beginnt
+[ 47.80s →  50.80s]  Drei Uhr morgens
+[ 52.60s →  56.40s]  Build-Logs / Kaputte ISOs
+[ 57.20s →  61.20s]  Entscheidungen / die langsam nach Raumfahrt aussehen
+[ 62.00s →  65.00s]  Linux ist wie Lego
+[ 65.80s →  69.00s]  Ubuntu ist das vorgefertigte Set
+[ 69.80s →  73.00s]  Windows ist ein versiegeltes System
+[ 73.80s →  77.80s]  Aber Arch / kippt dir zwölf Millionen Teile auf den Boden
+[ 78.60s →  82.60s]  CasandarOS
+[ 84.80s →  88.30s]  Ein Sternenschiff aus Code
+[ 90.30s →  93.80s]  Warum entführen Aliens eigentlich Kühe
+[ 94.60s →  98.60s]  Was wenn irgendwo unter Genf / etwas entdeckt wurde
+[ 99.40s → 103.40s]  Ein schlafloser Ingenieur versucht / diesen Wahnsinn nachzubauen
+[104.20s → 107.70s]  Normalerweise bauen ganze Teams solche Systeme
+[108.50s → 112.50s]  Und ich sitze allein / in einem leuchtenden Zimmer
+[113.00s → 117.00s]  in Bern
+[119.00s → 123.00s]  Ab irgendeinem Punkt / fühlt sich das nicht mehr wie Informatik an
+[123.80s → 127.80s]  Es fühlt sich an / wie der Maschinenraum eines Raumschiffs
+[128.60s → 132.60s]  CasandarOS
+[134.50s → 137.50s]  Entwickelt dort
+[139.30s → 142.80s]  wo die meisten längst offline sind
